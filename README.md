@@ -3,6 +3,8 @@ GTO poker coach for Gen AI (GSB570) final project
 Author: Jack Muoio
 Date: 06/05/2025
 
+Youtube: https://youtu.be/A8lCOY13LgM?si=NZeL8g-5lECIKh0C
+
 Poker Coach: Full Hand Strategy Trainer
 
 Overview:
