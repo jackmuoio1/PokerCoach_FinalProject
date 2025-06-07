@@ -193,7 +193,7 @@ if user_hand_input:
             "stage": "flop"
         }
 
-        prompt = f"You are an aggressive Game Theory Optimal (GTO) poker coach with deep knowledge of exploitative and optimal strategies. The user holds {user_hand_input} in {position} position at a {num_players}-handed table. The pre-flop win rate is {preflop_win_pct:.2f}%. Given this, provide a technically grounded recommendation to Raise, Call, Bluff, or Fold. Justify the action using GTO concepts such as hand range dominance, position equity, fold equity, and expected value (EV). Also evaluate if this is a good spot for a bluff based on the user's image and position."
+        prompt = f"You are a Game Theory Optimal (GTO) poker coach with deep knowledge of exploitative and optimal strategies. The user holds {user_hand_input} in {position} position at a {num_players}-handed table. The pre-flop win rate is {preflop_win_pct:.2f}%. Given this, provide a technically grounded recommendation to Raise, Call, Bluff, or Fold. Justify the action using GTO concepts such as hand range dominance, position equity, fold equity, and expected value (EV). Also evaluate if this is a good spot for a bluff based on the user's image and position."
         explanation = call_bedrock(prompt)
         st.write(f"Preflop Odds: {preflop_win_pct:.2f}%, Tie: {tie_pct:.2f}%, Strength: {strength}")
 #        st.success(f"Coach Recommendation: {action}")
