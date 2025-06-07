@@ -75,6 +75,18 @@ if "hand" not in st.session_state:
 
 st.title("♠️ Poker Coach: Full Hand Strategy Trainer")
 
+if st.button("🔄 Start New Hand"):
+    st.session_state.hand = {
+        "user_hand": [],
+        "board": [],
+        "num_players": 6,
+        "position": "Early",
+        "preflop_win": 0.0,
+        "pot": 0.0,
+        "stage": None
+    }
+    st.rerun()
+
 st.sidebar.header("💰 Bankroll Management")
 st.sidebar.write(f"Current Bankroll: ${st.session_state.bankroll:.2f}")
 st.sidebar.markdown("""
@@ -86,7 +98,7 @@ st.sidebar.markdown("""
 """)
 
 # Setup
-pot = st.number_input("Current pot size", 0.0, 100000.0, 100.0, 10.0)
+pot = st.number_input("Current pot size", 0.0, 100000.0, 0.0, 10.0)
 num_players = st.slider("Number of players", 2, 10, 6)
 position = st.selectbox("Your position", ["Small Blind", "Big Blind", "Early", "Middle", "Late"])
 user_hand_input = st.text_input("Pre-flop Hand (e.g. 'Ah 10s' for Ace hearts and Ten spades)")
@@ -136,7 +148,10 @@ def simulate_odds(user_hand, known_board, num_opponents, iterations=500):
     for _ in range(iterations):
         deck = Deck()
         for card in user_hand + known_board:
-            deck.cards.remove(card)
+            try:
+                deck.cards.remove(card)
+            except ValueError:
+                continue  # or log a warning if needed
         board = known_board + deck.draw(5 - len(known_board))
         villains = [deck.draw(2) for _ in range(num_opponents)]
         if any(len(v) < 2 for v in villains):
@@ -266,7 +281,16 @@ if st.session_state.hand.get("stage") == "river":
                 st.session_state.bankroll += change
                 st.session_state.history.append({"hand": user_hand_input, "result": outcome, "change": change})
                 st.success("Hand logged. Ready for next round.")
-                st.session_state.hand = {}
+                st.session_state.hand = {
+                    "user_hand": [],
+                    "board": [],
+                    "num_players": num_players,
+                    "position": position,
+                    "preflop_win": 0.0,
+                    "pot": 0.0,
+                    "stage": None
+                    }
+
 
         except Exception as e:
             st.error(f"Error: {e}")
